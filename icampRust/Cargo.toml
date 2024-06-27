@@ -6,3 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ndarray = "0.15.4"
+ndarray-rand = "0.14.0"
+rand = "0.8.4"
+rayon = "1.5.3"
+csv = "1.1.6"
+serde = { version = "1.0", features = ["derive"] }
+clap = { version = "4.1.0", features = ["derive"] }
