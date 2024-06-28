@@ -1,15 +1,19 @@
 [package]
-name = "icampRust"
-version = "0.1.0"
-edition = "2021"
+name = "icamp_rust"           # 包的名称
+version = "0.1.0"            # 包的当前版本，遵循语义化版本控制
+edition = "2021"             # 使用的 Rust 版本
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# 参见更多键及其定义：https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ndarray = "0.15.4"
-ndarray-rand = "0.14.0"
-rand = "0.8.4"
-rayon = "1.5.3"
-csv = "1.1.6"
-serde = { version = "1.0", features = ["derive"] }
-clap = { version = "4.1.0", features = ["derive"] }
+ndarray = "0.15.6"           # 用于 N 维数组操作的库
+ndarray-rand = "0.14.0"      # 为 ndarray 提供随机采样支持
+rand = "0.8.4"               # 用于生成随机数的库
+rayon = "1.5.3"              # Rust 数据并行库
+csv = "1.1.6"                # 用于读取和写入 CSV 文件的库
+serde = { version = "1.0", features = ["derive"] }  # 高效序列化和反序列化框架，启用 derive 特性
+clap = { version = "4.1.0", features = ["derive"] } # 命令行参数解析库，启用 derive 特性
+sysinfo = "0.26"             # 访问系统信息（如内存、CPU、进程）的库
+memmap2 = "0.3"              # 用于内存映射文件的库
+ndarray-linalg = "0.14.0"    # ndarray 的线性代数扩展
+ndarray-stats = "0.5.1"      # ndarray 的统计扩展

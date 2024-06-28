@@ -1,8 +1,11 @@
+mod dniche;
 mod nti;
 
 use clap::{Arg, Command};
 use std::error::Error;
 use std::path::Path;
+use sysinfo::{System, SystemExt};
+// 删除了未使用的导入
 
 fn main() -> Result<(), Box<dyn Error>> {
     let matches = Command::new("NTI Calculator")
@@ -51,16 +54,39 @@ fn main() -> Result<(), Box<dyn Error>> {
         std::process::exit(1);
     }
 
+    let available_memory_gb = get_available_memory_gb();
+    println!("Available memory: {} GB", available_memory_gb);
+
+    let use_memmap = available_memory_gb < 4.0;
+    let nworker = if available_memory_gb < 4.0 { 2 } else { 4 };
+
     let comm = nti::load_data(comm_path)?;
     let dis = nti::load_data(dis_path)?;
 
     let permuted_matrices = nti::randomize_matrix(&dis, rand_times);
     let mntd_obs = nti::calculate_mntd(&comm, &dis, weighted);
+    
+    // 修改了这部分代码，直接赋值而不使用 match
     let mntd_rand = nti::parallel_random_mntd(&comm, &dis, permuted_matrices, weighted);
+
     let nti_result = nti::calculate_nti(&mntd_obs, &mntd_rand);
 
     println!("NTI Results:");
     println!("{:?}", nti_result);
 
+    // dniche 函数调用
+    let env = dniche::load_data("path/to/env.csv")?; // 请替换为实际路径
+    let env = env.into_dimensionality::<ndarray::Ix2>()?;
+    let comm = comm.into_dimensionality::<ndarray::Ix2>()?;
+    let niche_result = dniche::calculate_niche(&env, &comm, "niche.value", nworker, use_memmap)?;
+    println!("Niche Calculation Results:");
+    println!("{:?}", niche_result);
+
     Ok(())
+}
+
+fn get_available_memory_gb() -> f64 {
+    let mut sys = System::new_all();
+    sys.refresh_memory();
+    sys.available_memory() as f64 / 1024.0 / 1024.0 / 1024.0
 }

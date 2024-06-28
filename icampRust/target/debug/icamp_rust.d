@@ -1,0 +1,1 @@
+C:\Users\erebus\icampRust\icampRust\target\debug\icamp_rust.exe: C:\Users\erebus\icampRust\icampRust\src\dniche.rs C:\Users\erebus\icampRust\icampRust\src\main.rs C:\Users\erebus\icampRust\icampRust\src\nti.rs
